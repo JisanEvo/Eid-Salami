@@ -38,14 +38,15 @@ export default function EidSalamiApp() {
     }
   };
 
-  // Function to stop the song and refresh the page
+  // Function to stop the song and reset the state
   const closeSalami = (event) => {
     event.preventDefault();  // Prevent any default behavior like page refresh
     if (audioRef.current) {
       audioRef.current.pause();  // Stop the song
       audioRef.current.currentTime = 0; // Reset song to the beginning
     }
-    window.location.reload();  // Refresh the page
+    setSalami(null);  // Reset salami state to hide the image
+    setHasClicked(false);  // Allow button to be clicked again
   };
 
   return (
@@ -64,9 +65,9 @@ export default function EidSalamiApp() {
       {salami && (
         <div className="amount-display">
           <img src={salami.image} alt={`${salami.value} Taka`} className="money-image" />
-          {/* Button to close salami display, stop the song, and refresh the page */}
+          {/* Button to close salami display, stop the song, and reset the state */}
           <button className="salami-close" onClick={closeSalami}>
-            ঠিকাছে মামু
+            ঈদ মোবারক
           </button>
         </div>
       )}

@@ -70,8 +70,8 @@ body {
   background-color: orchid;
 }
 .money-image {
-  width: 600px;      /* Fixed width */
-  height: 250px;     /* Fixed height */
+  width: 700px;      /* Fixed width */
+  height: 300px;     /* Fixed height */
   object-fit: cover; /* Ensures images maintain aspect ratio without distortion */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   display: block;
