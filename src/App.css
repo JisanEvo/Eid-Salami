@@ -4,11 +4,9 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
 
-  background-image: url('./images/band.webp');
-  background-image: url('./images/ba.jpg');
+  background-image: url('/images/ba.jpg');
   
-  /* Set the background size to 1000px width and 500px height */
-  background-size: 2000px 1000px;  /* Width: 1000px, Height: 500px */
+  background-size: 2000px 1000px;  
   
   background-position: center;
   background-repeat: no-repeat;
@@ -24,7 +22,6 @@ body {
   align-items: center;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
   height: 100vh;
 
 }
@@ -88,16 +85,46 @@ body {
   font-weight: bold;
   color: white;
 }
+.salami-close {
+  background-color: red;
+  color: white;
+  font-size: 16px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+.bkash-input {
+  width: 80%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 2px solid #ff9800;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.transfer-button:hover {
+  background-color: orchid;
+}
+
+.eid-text{
+background-color: black;
+border-radius: 10px;
+padding: 10px;
+}
 
 /* Media Queries for mobile devices */
 @media (max-width: 768px) {
   .title {
-    font-size: 1.6rem; /* Slightly smaller font size for tablets */
+    font-size: 1.6rem; 
   }
 
   .salami-button {
-    font-size: 1.4rem; /* Smaller button text */
-    padding: 8px 16px; /* Adjust button padding */
+    font-size: 1.4rem; 
+    padding: 8px 16px; 
   }
 
   .money-image {
@@ -122,12 +149,12 @@ body {
   }
 
   .money-image {
-    width: 100%;       /* Make image fully responsive */
-    max-width: 400px;  /* Reduce max width for mobile screens */
-    height: auto;      /* Maintain aspect ratio */
+    width: 100%;       
+    max-width: 400px;  
+    height: auto;      
   }
 
   .amount-display {
-    font-size: 1.4rem; /* Adjust font size for smaller screens */
+    font-size: 1.4rem; 
   }
 }

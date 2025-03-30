@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./App.css";
+import toast, { Toaster } from "react-hot-toast";
 
 const moneyNotes = [
   { value: 10, image: "/images/10tk.gif" },
@@ -13,61 +14,84 @@ const moneyNotes = [
 
 export default function EidSalamiApp() {
   const [salami, setSalami] = useState(null);
-  const [hasClicked, setHasClicked] = useState(false);  // Track if button is clicked
+  const [hasClicked, setHasClicked] = useState(false);
+  const [bkashNumber, setBkashNumber] = useState("");
   const audioRef = useRef(null);
 
-  // Function to handle the button click and play the audio
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, [salami]);
+
   const playSong = () => {
     if (audioRef.current) {
-      audioRef.current.play();  // Play the song
+      audioRef.current.play().catch(error => console.error("Audio play failed:", error));
     }
   };
 
-  // Function to handle giving the salami
   const giveSalami = () => {
     const randomSalami = moneyNotes[Math.floor(Math.random() * moneyNotes.length)];
     setSalami(randomSalami);
   };
 
-  // Function to handle button click for both actions (giving salami and playing song)
   const handleClick = () => {
-    if (!hasClicked) {  // Only allow the action if button hasn't been clicked yet
-      giveSalami();  // Give random salami
-      playSong();    // Play the song
-      setHasClicked(true);  // Mark the button as clicked
+    if (!hasClicked) {
+      giveSalami();
+      playSong();
+      setHasClicked(true);
     }
   };
 
-  // Function to stop the song and reset the state
-  const closeSalami = (event) => {
-    event.preventDefault();  // Prevent any default behavior like page refresh
-    if (audioRef.current) {
-      audioRef.current.pause();  // Stop the song
-      audioRef.current.currentTime = 0; // Reset song to the beginning
+  const handleTransfer = () => {
+    if (!salami) {
+      toast.error("সালামি নির্বাচিত হয়নি!");
+      return;
     }
-    setSalami(null);  // Reset salami state to hide the image
-    setHasClicked(false);  // Allow button to be clicked again
+    if (bkashNumber.length === 11 && /^01[3-9]\d{8}$/.test(bkashNumber)) {
+      toast.success(`৳${salami.value} টাকা সফলভাবে ট্রান্সফার হয়েছে!`);
+      closeSalami();
+    } else {
+      toast.error("দয়া করে একটি বৈধ বিকাশ নম্বর দিন!");
+    }
+  };
+
+  const closeSalami = () => {
+    setSalami(null);
+    setHasClicked(false);
+    setBkashNumber("");
   };
 
   return (
     <div className="container">
-      {/* Button to trigger both salami giving and song playing, it hides after clicked */}
+      <Toaster />
       {!hasClicked && (
         <button className="salami-button" onClick={handleClick}>
           সালামি নিন
         </button>
       )}
 
-      {/* Audio element to play the song */}
-      <audio ref={audioRef} src="/images/song.mp3" />
+      <audio ref={audioRef} src="/images/song.mp3" preload="auto" />
 
-      {/* Display the salami amount and image if a salami is given */}
       {salami && (
         <div className="amount-display">
+          <h3 className="eid-text">আপনার ঈদ বোনাস</h3>
           <img src={salami.image} alt={`${salami.value} Taka`} className="money-image" />
-          {/* Button to close salami display, stop the song, and reset the state */}
-          <button className="salami-close" onClick={closeSalami}>
-            ঈদ মোবারক
+          <input 
+            type="text" 
+            placeholder="বিকাশ নম্বর দিন" 
+            value={bkashNumber} 
+            onChange={(e) => setBkashNumber(e.target.value)} 
+            className="bkash-input"
+            maxLength="11"
+            pattern="[0-9]*"
+            inputMode="numeric"
+          />
+          <button className="salami-close transfer-button" onClick={handleTransfer}>
+            ট্রান্সফার করুন
           </button>
         </div>
       )}
